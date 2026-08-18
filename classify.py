@@ -46,7 +46,9 @@ def train_and_evaluate(
         objective = "binary:logistic"
         eval_metric = "logloss"
     else:
-        objective = "multi:softmax"
+        # Use probability outputs for multi-class to better support log-loss,
+        # calibration, and downstream consumers that expect per-class probabilities.
+        objective = "multi:softprob"
         eval_metric = "mlogloss"
 
     # 3. Build and train the model
